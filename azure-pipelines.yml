@@ -23,7 +23,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Azure subscription 1(e01e1425-ef9c-4526-86b6-d9cbfd590177)'
+    azureSubscription: 'Azure subscription 1(ebc4c419-e187-48c2-ab0f-8e2bb495e91d)'
     appType: 'webAppLinux'
     appName: 'amazondevelop12'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
