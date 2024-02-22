@@ -20,10 +20,9 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
     publishWebProjects: true
   displayName: 'dotnet build $(buildConfiguration)'
-
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Azure subscription 1(51959a08-f28a-4ca0-bb0a-a1452e9bcbf6)'
+    azureSubscription: 'devops-connect-reg'
     appType: 'webAppLinux'
     appName: 'dotnnet-web'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
