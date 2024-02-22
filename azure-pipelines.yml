@@ -23,8 +23,8 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Azure subscription 1(e01e1425-ef9c-4526-86b6-d9cbfd590177)'
+    azureSubscription: 'Azure subscription 1(51959a08-f28a-4ca0-bb0a-a1452e9bcbf6)'
     appType: 'webAppLinux'
-    appName: 'amazondevelop12'
+    appName: 'dotnnet-web'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     runtimeStack: 'DOTNETCORE|6.0'
