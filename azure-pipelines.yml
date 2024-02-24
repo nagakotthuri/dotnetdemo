@@ -72,11 +72,3 @@ stages:
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
             runtimeStack: 'DOTNETCORE|6.0'
-
-- task: KubernetesManifest@1
-  inputs:
-    action: 'deploy'
-    connectionType: 'azureResourceManager'
-    azureSubscriptionConnection: 'AKSdevopsconnect'
-    azureResourceGroup: 'Test'
-    kubernetesCluster: 'BalajiAKSTest'
