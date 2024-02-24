@@ -7,23 +7,76 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-  displayName: 'dotnet build $(buildConfiguration)'
+stages:
+- stage: build
+  jobs:
+  -  job: Build 
+     steps:
+     - task: DotNetCoreCLI@2
+       inputs:
+         command: 'build'
+         arguments: '--configuration $(buildConfiguration)'
+       displayName: 'dotnet build $(buildConfiguration)'
+       
+     - task: DotNetCoreCLI@2
+       inputs:
+         command: 'publish'
+         arguments: '--configuration $(buildConfiguration)'
+         publishWebProjects: true
+       displayName: 'dotnet build $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- stage: docker
+  jobs:
+  -   job: DockerBuildandPush
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'AKSdockertest'
+          repository: 'manu'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+
+- stage: DeployToTest
+  jobs:
+    -   job: DeployToTest
+        steps:
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: 'devops-connect-reg'
+            appType: 'webAppLinux'
+            appName: 'BalajiAKSTest'
+            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            runtimeStack: 'DOTNETCORE|6.0'
+
+- stage: DeployToStage
+  jobs:
+    -   job: DeployToStage
+        steps:
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: 'devops-connect-reg'
+            appType: 'webAppLinux'
+            appName: 'BalajiAKSTest'
+            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            runtimeStack: 'DOTNETCORE|6.0'
+
+- stage: DeployToProd
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  jobs:
+    -   job: DeployToProd
+        steps:
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: 'devops-connect-reg'
+            appType: 'webAppLinux'
+            appName: 'BalajiAKSTest'
+            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            runtimeStack: 'DOTNETCORE|6.0'
+
+- task: KubernetesManifest@1
   inputs:
-    command: 'publish'
-    arguments: '--configuration $(buildConfiguration)'
-    publishWebProjects: true
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'devops-connect-reg'
-    appType: 'webAppLinux'
-    appName: 'dotnnet-web'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    runtimeStack: 'DOTNETCORE|6.0'
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'AKSdevopsconnect'
+    azureResourceGroup: 'Test'
+    kubernetesCluster: 'BalajiAKSTest'
