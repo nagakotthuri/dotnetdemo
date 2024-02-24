@@ -42,7 +42,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'devops-connect-reg'
+            azureSubscription: 'AKSdevopsconnect'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -54,7 +54,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'devops-connect-reg'
+            azureSubscription: 'AKSdevopsconnect'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -67,7 +67,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'devops-connect-reg'
+            azureSubscription: 'AKSdevopsconnect'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
