@@ -8,7 +8,7 @@ variables:
   buildConfiguration: 'Release'
 
 stages:
-- stage: build
+ - stage: build
   jobs:
   -  job: Build 
      steps:
@@ -35,7 +35,7 @@ stages:
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'docker'
+        containerRegistry: 'docker-connection'
         repository: 'dotnet'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
@@ -47,7 +47,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'azureadoconnect'
+            azureSubscription: 'azureadoconnection'
             appType: 'webAppLinux'
             appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -59,7 +59,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'azureadoconnect'
+            azureSubscription: 'azureadoconnection'
             appType: 'webAppLinux'
             appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -72,7 +72,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'azureadoconnect'
+            azureSubscription: 'azureadoconnection'
             appType: 'webAppLinux'
             appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
