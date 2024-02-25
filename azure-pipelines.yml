@@ -31,7 +31,7 @@ stages:
       steps:
       - task: Docker@2
         inputs:
-          containerRegistry: 'AKSdockertest'
+          containerRegistry: 'dotnetimage6'
           repository: 'manu'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
@@ -42,7 +42,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'AKSdevopsconnect'
+            azureSubscription: 'adoazconnection'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -54,7 +54,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'AKSdevopsconnect'
+            azureSubscription: 'adoazconnection'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -67,7 +67,7 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'AKSdevopsconnect'
+            azureSubscription: 'adoazconnection'
             appType: 'webAppLinux'
             appName: 'BalajiAKSTest'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
