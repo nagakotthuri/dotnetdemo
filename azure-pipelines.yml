@@ -35,7 +35,7 @@ stages:
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'finalconnect'
+        containerRegistry: 'docker'
         repository: 'dotnet'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
@@ -47,9 +47,9 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'adoazconnection'
+            azureSubscription: 'azureadoconnect'
             appType: 'webAppLinux'
-            appName: 'BalajiAKSTest'
+            appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
             runtimeStack: 'DOTNETCORE|6.0'
 
@@ -59,9 +59,9 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'adoazconnection'
+            azureSubscription: 'azureadoconnect'
             appType: 'webAppLinux'
-            appName: 'BalajiAKSTest'
+            appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
             runtimeStack: 'DOTNETCORE|6.0'
 
@@ -72,8 +72,8 @@ stages:
         steps:
         - task: AzureWebApp@1
           inputs:
-            azureSubscription: 'adoazconnection'
+            azureSubscription: 'azureadoconnect'
             appType: 'webAppLinux'
-            appName: 'BalajiAKSTest'
+            appName: 'nagaAKSclusterfeb25'
             package: '$(System.DefaultWorkingDirectory)/**/*.zip'
             runtimeStack: 'DOTNETCORE|6.0'
