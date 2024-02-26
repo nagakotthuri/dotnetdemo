@@ -47,7 +47,7 @@ stages:
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: 'azureadoconnection'
+              azureSubscription: 'azureadoconnect'
               appType: 'webAppLinux'
               appName: 'nagaAKSclusterfeb25'
               package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -59,7 +59,7 @@ stages:
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: 'azureadoconnection'
+              azureSubscription: 'azureadoconnect'
               appType: 'webAppLinux'
               appName: 'nagaAKSclusterfeb25'
               package: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -72,7 +72,7 @@ stages:
         steps:
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: 'azureadoconnection'
+              azureSubscription: 'azureadoconnect'
               appType: 'webAppLinux'
               appName: 'nagaAKSclusterfeb25'
               package: '$(System.DefaultWorkingDirectory)/**/*.zip'
