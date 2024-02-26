@@ -32,7 +32,7 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'docker-hub'
-              repository: 'dotnet'
+              repository: 'nagalak/dotnet'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               
