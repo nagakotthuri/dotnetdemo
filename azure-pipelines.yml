@@ -31,26 +31,14 @@ stages:
         steps:
           - task: Docker@2
             inputs:
-              containerRegistry: 'docker-hub'
-              repository: 'nagalak/dotnet'
+              containerRegistry: 'dockerconnect'
+              repository: 'dotnet'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               
   - stage: DeployToTest
     jobs:
       - job: DeployToTest
-        steps:
-          - task: AzureWebApp@1
-            inputs:
-              azureSubscription: 'azureadoconnect'
-              appType: 'webAppLinux'
-              appName: 'nagaAKSclusterfeb25'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              runtimeStack: 'DOTNETCORE|6.0'
-
-  - stage: DeployToStage
-    jobs:
-      - job: DeployToStage
         steps:
           - task: AzureWebApp@1
             inputs:
