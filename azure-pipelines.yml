@@ -23,7 +23,7 @@ stages:
               command: 'publish'
               arguments: '--configuration $(buildConfiguration)'
               publishWebProjects: true
-            displayName: 'dotnet build $(buildConfiguration)'
+            displayName: 'dotnet publish $(buildConfiguration)'
 
   - stage: docker
     jobs:
@@ -32,31 +32,25 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'dockerconnect'
-              repository: 'dotnet'
+              repository: 'nagalak/dotnet'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
-              
+
   - stage: DeployToTest
     jobs:
       - job: DeployToTest
         steps:
-          - task: AzureWebApp@1
+          - task: KubernetesManifest@1
             inputs:
-              azureSubscription: 'azureadoconnect'
-              appType: 'webAppLinux'
-              appName: 'nagaAKSclusterfeb25'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              runtimeStack: 'DOTNETCORE|6.0'
-
-  - stage: DeployToProd
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-    jobs:
-      - job: DeployToProd
-        steps:
-          - task: AzureWebApp@1
-            inputs:
-              azureSubscription: 'azureadoconnect'
-              appType: 'webAppLinux'
-              appName: 'nagaAKSclusterfeb25'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              runtimeStack: 'DOTNETCORE|6.0'
+              action: 'deploy'
+              connectionType: 'Azure Resource Manager'
+              azureSubscriptionEndpoint: 'AzureAdoConnect'
+              azureResourceGroup: 'aks_tf_naga_rg'
+              kubernetesCluster: 'naga-aks-cluster'
+              command: 'apply'
+              useClusterAdmin: true
+              namespace: 'test'
+              arguments: '--timeout=10m'
+              manifests: |
+                manifestsAKS/deployment.yaml
+                manifestsAKS/service.yaml
